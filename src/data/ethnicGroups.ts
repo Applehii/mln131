@@ -1,69 +1,577 @@
 export interface EthnicGroup {
     id: string;
     name: string;
+    vietnameseName: string;
+    otherNames?: string[];
     region: string;
-    language: string;
-    population?: string;
-    clothingImage: string;
-    description: string;
-    quote: string;
-    coordinates: [number, number]; // [lat, long]
+    population: string;
+    languageGroup: string;
+    images: string[];
+    introduction: string;
+    details: {
+        origin: string;
+        history: string;
+        distribution: string;
+        population: string;
+        language: string;
+        characteristics: string;
+        customs: string;
+        belief: string;
+        housing: string;
+        clothing: string;
+        cuisine: string;
+        production: string;
+        arts: string;
+    };
+    sources: { name: string; url: string; }[];
 }
+
+export const getEthnicGroupById = (id: string): EthnicGroup | undefined => {
+    const search = id.toLowerCase().trim();
+    return ethnicGroups.find(g =>
+        g.id.toLowerCase() === search ||
+        g.name.toLowerCase() === search ||
+        g.vietnameseName.toLowerCase() === search
+    );
+};
 
 export const ethnicGroups: EthnicGroup[] = [
     {
+        id: 'kinh',
+        name: 'Kinh',
+        vietnameseName: 'Kinh',
+        otherNames: ['Việt'],
+        region: 'Toàn quốc',
+        population: '82.085.826 người (2019)',
+        languageGroup: 'Việt - Mường (Nam Á)',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261157360b89b00bf2c33c2dc0c5a36c5ab8e18709d648bda20cec536b1f6ea6dc92533187edb235c85e6d0d044f476af891aa9c08e93dd1a537379245f4f8a13f2fe63a899dc0d598a8828a44264337440e8/ngay-hanh-phuc-tac-gia-tran-duy-tinh-6391.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261157360b89b00bf2c33c2dc0c5a36c5ab8ee9292659cb47edb3d2c542825fcb9169a7c4fc33cca891ca9d46f394e8368285f2d5ad6cfc1214d688affa3ade4498d3c78e135349de875fa2343f8ce4f50d7a63a899dc0d598a8828a44264337440e8/hon-nhien-trong-ta-ao-trang-tac-gia-nguyen-manh-cuong-873.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2413c936b1b6825b8a6d6e957c64a6bb96e93b7038fcb5c17877071cff201eaa447e42d2894a85b7d58ed65c704cef4a8b7ae13cda333b1a658a4aa09dbd85477/goibanhchungtacgiavukhoi.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261157360b89b00bf2c33c2dc0c5a36c5ab8ed7becf2a75d7fdad990a9260be85947d5cfacd5ee898d181029010948d9846a0/kinhtp-4885.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2413c936b1b6825b8a6d6e957c64a6bb996f2ccd8df15cae6e4d74fcabe9c183b8773cfd9b3c0c49b4f7398a2c40756b3b7ae13cda333b1a658a4aa09dbd85477/muavangtacgiahieuminhvu1.jpg"],
+        introduction: 'Người Kinh là tộc người có số dân đông nhất trong 54 dân tộc ở Việt Nam, cư trú tập trung ở vùng đồng bằng, có điều kiện thuận lợi để phát triển kinh tế-xã hội nên họ chính là lực lượng chủ đạo tham gia lập nước.',
+        details: {
+            origin: 'Người Kinh (cũng như người Mường, Thổ, Chứt) là tộc người bản địa, sở tại, sinh sống từ rất lâu đời trên dải đất Việt Nam, không phải có nguồn gốc từ lãnh thổ bên ngoài.',
+            history: 'Từ cái nôi ban đầu là vùng Bắc Bộ và Bắc Trung Bộ, tập trung ở đồng bằng, người Kinh chuyển cư đến các vùng khác, trở thành tộc người đông đảo, có mặt trên mọi địa bàn, địa hình của Tổ quốc. Trong suốt tiến trình phát triển của lịch sử Việt Nam, người Kinh luôn là trung tâm thu hút và đoàn kết các dân tộc anh em xây dựng và bảo vệ Tổ quốc.',
+            distribution: 'Người Kinh là tộc người duy nhất trong 54 tộc người của quốc gia Việt Nam cư trú thành các cộng đồng ở tất cả các tỉnh, trên tất cả các dạng địa hình (đồng bằng, trung du, miền núi, cao nguyên, ven biển và hải đảo), song tập trung đông đúc ở đồng bằng.',
+            population: 'Theo số liệu thống kê của Tổng điều tra dân số và nhà ở Việt Nam năm 2019, dân tộc Kinh hiện có 82.085.826 người, chiếm 86,83% tổng dân số cả nước.',
+            language: 'Tiếng Việt nằm trong nhóm ngôn ngữ Việt-Mường, ngữ hệ Nam Á. Chữ quốc ngữ được xây dựng trên cơ sở dùng chữ cái Latinh.',
+            characteristics: 'Đại bộ phận người Việt sinh sống thành từng làng, dăm ba làng họp lại thành một xã. Gia đình của người Việt hầu hết là gia đình nhỏ gồm 2 thế hệ theo chế độ phụ quyền nhưng phụ nữ vẫn giữ vai trò quan trọng.',
+            customs: 'Tết Nguyên đán là tết lớn nhất trong năm. Ngoài ra còn có nhiều lễ tết truyền thống khác như Rằm Tháng giêng, Tết Thanh minh, Tết Đoan Ngọ, Rằm Tháng bảy, Tết Trung thu...',
+            belief: 'Thờ cúng tổ tiên là tín ngưỡng quan trọng nhất của người Việt. Tục thờ thổ công, táo quân, ông địa phổ biến ở nhiều nơi. Một bộ phận cư dân còn theo đạo Thiên chúa, Tin lành, Cao Đài, Hòa Hảo.',
+            housing: 'Người Việt thường ở nhà trệt. Ngôi nhà chính thường có kết cấu 3 gian hoặc 5 gian và gian giữa là gian trang trọng nhất, đặt bàn thờ gia tiên.',
+            clothing: 'Xưa kia, đàn ông người Kinh thường mặc quần chân què, áo cánh nâu (Bắc bộ), màu đen (Nam bộ). Đàn bà mặc váy đen, yếm, áo cánh nâu, chít khăn mỏ quạ đen (Bắc bộ); áo bà ba, quấn khăn rằn, nón lá (Nam bộ). Áo dài là biểu tượng văn hóa.',
+            cuisine: '"Cơm tẻ, nước chè" là đồ ăn, thức uống cơ bản hằng ngày. Người Việt rất ưa dùng các loại mắm và các loại dưa. Mâm cỗ ngày Tết có bánh tét, bánh chưng, dưa hành, thịt đông, nem, giò.',
+            production: 'Đại đa số cư dân sống dựa vào nông nghiệp là chủ đạo, trong đó trồng trọt lúa nước là chính, kết hợp chăn nuôi, mở mang các nghề thủ công và trao đổi, buôn bán. Người Việt nổi tiếng "có hoa tay" về nghề thủ công nghiệp.',
+            arts: 'Văn học dân gian phong phú (ca dao, tục ngữ, truyện cổ tích). Nghệ thuật sân khấu: Chèo, Tuồng, Cải lương, Múa rối nước. Âm nhạc: Nhã nhạc cung đình Huế, Dân ca Quan họ Bắc Ninh.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-kinh-post723893.html' }]
+    },
+    {
+        id: 'hoa',
+        name: 'Hoa',
+        vietnameseName: 'Hoa',
+        otherNames: ['Khách', 'Hán', 'Tàu'],
+        region: 'Đông Nam Bộ',
+        population: '749.466 người (2019)',
+        languageGroup: 'Hán - Tạng',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611590b4cafef6765d59c079519d0b9b88f4620aaa4e6acc1fce91e25d8f4c2ec2e376329a17486c2697a025597343738597/e36112608773402d1962.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc290b4cafef6765d59c079519d0b9b88f458fa338980da29e01eb14e7220f96b45/hoa1.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f45695765fe0256de82c557a3831397525a0f892b49ddde958f1f9420a6513fd3bfa6054a/dat-0700-5749.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f45695765da6c5729d0a2311aea59a2cd64ee28ce71bc4c9eebc01913d876ff69bbd33e4d/hoa3-4550.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f456957654caf72b4c3dd0ebb0aa78ca5b2a1fdfd4260b3300c75810c80a87d464130300c/hoa1-3606.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc290b4cafef6765d59c079519d0b9b88f45340eab8134454109a1fbd095254d292/hao3.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc290b4cafef6765d59c079519d0b9b88f43548584402f194b0de9a0e7faea774bb/hpa4.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc290b4cafef6765d59c079519d0b9b88f4c07e284ee727b1a4324bf088c256206c/hpa5.jpeg"],
+        introduction: 'Dân tộc Hoa thuộc nhóm ngôn ngữ Hán-Tạng, là một cộng đồng dân tộc đóng vai trò, vị trí quan trọng trong nhiều lĩnh vực kinh tế, văn hóa, xã hội ở miền nam Việt Nam.',
+        details: {
+            origin: 'Người Hoa di cư đến Việt Nam vào những thời điểm khác nhau từ thế kỷ XVI, và sau này vào cuối thời Minh, đầu thời Thanh, kéo dài cho đến nửa đầu thế kỷ XX.',
+            history: 'Người Hoa thiên di vào cả miền bắc và miền nam Việt Nam từ nhiều địa phương, bằng nhiều con đường, trong những thời gian khác nhau, kéo dài suốt từ thời kỳ bắc thuộc cho đến năm 1954.',
+            distribution: 'Địa bàn sống chủ yếu tại Thành phố Hồ Chí Minh (Chợ Lớn), Đồng Nai, Sóc Trăng.',
+            population: 'Theo số liệu Điều tra 53 dân tộc thiểu số 1/4/2019: Tổng dân số 749.466 người. Tỷ lệ dân số sống ở khu vực nông thôn chiếm 30,3%.',
+            language: 'Tiếng nói thuộc nhóm ngôn ngữ Hán (Ngữ hệ Hán-Tạng), gồm các phương ngữ Quảng Đông, Triều Châu, Phúc Kiến, Hải Nam, Khách Gia.',
+            characteristics: 'Tính cộng đồng cao, sinh hoạt theo Bang, Hội quán. Gia đình nhỏ phụ quyền. Quan hệ cộng đồng còn mạnh mặc dù đã xuất hiện sự phân hóa giàu nghèo.',
+            customs: 'Có những ngày Tết như nhiều dân tộc trong vùng. Lễ cưới, tang ma được tổ chức theo nghi thức truyền thống.',
+            belief: 'Thờ cúng tổ tiên, gia tộc, dòng họ, thờ cúng các vị thần phù hộ (thần bếp, thổ địa, thần tài...) và một số vị thánh (Quan Công, bà Thiên Hậu, ông Bổn, Nam Hải Quan Âm...).',
+            housing: 'Người làm nghề nông thường sống thành thôn, làng xóm. Ở thành thị họ sống tập trung trong các khu phố riêng. Nhà cửa thường có 3 loại: nhà 3 gian hai chái, nhà chữ Môn và chữ Khẩu.',
+            clothing: 'Phụ nữ mặc áo cổ viền cao, cài khuy một bên, xẻ tà cao hoặc chiếc áo "sườn xám" may dài, ôm ngang hông. Đàn ông mặc áo màu đen hay xanh đậm, cài khuy vải.',
+            cuisine: 'Lương thực chính là gạo, nhưng trong bữa ăn thường có các loại như mì xào, hủ tiếu... Nổi tiếng với dimsum, vịt quay, hủ tiếu, mì vằn thắn.',
+            production: 'Người Hoa ở vùng nông thôn chủ yếu sống bằng nghề nông. Ở các thành phố, thị xã, thị trấn họ làm nghề dịch vụ, buôn bán. Tiểu thủ công nghiệp khá phát triển như gốm, làm giấy, làm nhang. Trong hoạt động sản xuất kinh doanh, người Hoa luôn coi trọng chữ "tín".',
+            arts: 'Sinh hoạt văn hóa truyền thống có nhiều thể loại như hát, múa, hài kịch với nhiều loại nhạc cụ. Múa Lân - Sư - Rồng, thư pháp, Kinh kịch/Triều kịch.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-hoa-post723900.html' }]
+    },
+    {
+        id: 'thai',
+        name: 'Thái',
+        vietnameseName: 'Thái',
+        otherNames: ['Thái Trắng', 'Thái Đen'],
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '1.820.950 người (2019)',
+        languageGroup: 'Tày - Thái (Thái - Kađai)',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261158f58dcfed78b36f75768c51c0d3d7c320de64441ea1b26dd1594c38310b88c5eb7ae13cda333b1a658a4aa09dbd85477/dat0644.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe941ea7df37c5c50c9d4577eaa4dad1efbdedda76813129b114dc77f655f0a1c5b5962d909b0f22483e2e00ac2f8eb38ec563a899dc0d598a8828a44264337440e8/don-nang-trang-cua-nguoi-thai-nghe-an-1064.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe942e58d61fa867a5740d14d1c3a7735301c2381094306107c33e4c998a37d06158/dat-1524-5566.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c32dc4a4abae7e34ce63d12167a837943fcb7ae13cda333b1a658a4aa09dbd85477/dat1513.jpg"],
+        introduction: 'Có mặt ở Việt Nam từ rất sớm, dân tộc Thái được nhìn nhận là một mảnh ghép đặc sắc trong bức tranh 54 dân tộc anh em của Việt Nam.',
+        details: {
+            origin: 'Người Thái có cội nguồn ở vùng Đông Nam Á lục địa, tổ tiên xa xưa của người Thái có mặt ở Việt Nam từ rất sớm.',
+            history: 'Người Thái ở Việt Nam được nhìn nhận là một cộng đồng tộc người với nhiều nhóm địa phương. Theo các nhà dân tộc học, người Thái ở Việt Nam có hai nhóm chính: Thái Trắng và Thái Đen.',
+            distribution: 'Người Thái cư trú ở các tỉnh: Hòa Bình, Lai Châu, Điện Biên, Sơn La, Lào Cai, Yên Bái, Thanh Hóa, Nghệ An và một số vùng Tây Nguyên.',
+            population: 'Theo số liệu Điều tra 53 dân tộc thiểu số năm 2019, dân tộc Thái có 1.820.950 người. Trong đó, có 910.202 nam và 910.748 nữ.',
+            language: 'Thuộc nhóm ngôn ngữ Tày - Thái (ngữ hệ Thái – Kađai).',
+            characteristics: 'Thiết chế bản mường, một hình thức tổ chức mang tính tiền nhà nước, đánh dấu trình độ phát triển cao của xã hội người Thái.',
+            customs: 'Cúng tổ tiên ở người Thái Đen vào tháng 7, 8 âm lịch. Người Thái Trắng ăn tết theo âm lịch. Bản mường có cúng thần đất, núi, nước.',
+            belief: 'Người Thái thờ cúng tổ tiên, thờ cúng thần nông nghiệp, thần sông núi. Việc thờ cúng gắn liền với các lễ hội trong năm như: lễ xuống đồng, lễ cầu mưa, lễ rước hồn lúa.',
+            housing: 'Ở nhà sàn, dáng vẻ khác nhau. Hình tượng "khau cút" là biểu tượng độc đáo cho ngôi nhà sàn có mái hình mui rùa của người Thái Đen.',
+            clothing: 'Phụ nữ Thái Trắng mặc áo cánh ngắn màu sáng, trắng, cài cúc bạc tạo hình bướm hoặc ong. Phụ nữ Thái Đen với áo cánh ngắn màu tối, đội khăn piêu thêu tỉ mỉ.',
+            cuisine: 'Xôi nếp, cơm lam, rượu cần, các loại đồ nướng thường được coi là những đặc trưng của ẩm thực Thái.',
+            production: 'Đồng bào dân tộc Thái trồng lúa nước và trồng trọt trên nương. Chăn nuôi phổ biến là: lợn, trâu, dê và nuôi tằm. Ngoài ra còn có nghề dệt vải, đan lát.',
+            arts: 'Người Thái có các điệu xòe đặc sắc, hát thơ, đối đáp giao duyên phong phú. Nhạc cụ truyền thống có các loại sáo lam, tiêu.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-thai-post723932.html' }]
+    },
+    {
+        id: 'muong',
+        name: 'Mường',
+        vietnameseName: 'Mường',
+        otherNames: ['Mol', 'Mual', 'Mul', 'Mon'],
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '1.452.095 người (2019)',
+        languageGroup: 'Việt - Mường (Nam Á)',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261157360b89b00bf2c33c2dc0c5a36c5ab8e9bfb3936a52789705b06d526eebcf7f55cfacd5ee898d181029010948d9846a0/muong3-6526.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261157360b89b00bf2c33c2dc0c5a36c5ab8ed3d252bb95f4fb0bb762ffbafeabe656916c59155e9d2a01be61f6ea02b8af51/img-1021-5047.jpg", "https://cdn.nhandan.vn/images/8836b36b8a921198b62d58be2bd95777b69f283b21aff3cfc077dab6d24e77d7a05f628f3e50943f790cd8d1037e0707/ns.jpg", "https://cdn.nhandan.vn/images/359ad7d1902eff63e2eea30e854c68679f97f734fdbfd397a1a267909d7765f8eaf1d45ddfca788e21c394748e358080/1-9764.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261157360b89b00bf2c33c2dc0c5a36c5ab8ebf83f933df29ae4865e70f42f679d738e667d376bf869970b83bd2a9ea12e0ea/muong2-317.jpg"],
+        introduction: 'Người Mường có dân số hơn một triệu người, đông thứ 4 chỉ sau người Việt, Tày, Thái. Là cư dân bản địa lâu đời, họ có cùng nguồn gốc với người Việt cổ.',
+        details: {
+            origin: 'Người Mường là cư dân bản địa, sinh sống lâu đời ở nước ta và đã tạo dựng được một nền văn hóa phong phú, giàu bản sắc tộc người.',
+            history: 'Người Mường có nguồn gốc chung với người Việt cổ. Tổ chức xã hội truyền thống có sự phân hóa thành đẳng cấp nhà lang (quý tộc) và bình dân.',
+            distribution: 'Tập trung chủ yếu ở các tỉnh Hòa Bình (549.026 người), Thanh Hóa (341.359 người), Phú Thọ (218.404 người), Sơn La, Hà Nội, Ninh Bình, Yên Bái.',
+            population: 'Theo số liệu Điều tra 53 dân tộc thiểu số năm 2019, người Mường có tổng dân số là 1.452.095 người.',
+            language: 'Tiếng Mường, thuộc nhóm ngôn ngữ Việt-Mường, ngữ hệ Nam Á.',
+            characteristics: 'Thiết chế xã hội cổ truyền là xóm và mường. Nơi cư trú được gọi bằng từ quêl hoặc xóm. Làng là đơn vị cơ sở của xã hội Mường.',
+            customs: 'Lễ cưới của người Mường hiện nay đã thực hiện theo nếp sống mới. Trai gái tự do yêu đương tìm hiểu, ưng ý nhau thì báo để gia đình chuẩn bị lễ cưới.',
+            belief: 'Thờ cúng tổ tiên, thờ Tản Viên, thờ thổ công.',
+            housing: 'Đại bộ phận người Mường ở nhà sàn, kiểu nhà 4 mái, chung quanh có hàng cau, cây mít. Phần trên sàn người ở, dưới gầm đặt chuồng gia súc.',
+            clothing: 'Bộ y phục nữ đa dạng: khăn đội đầu trắng, yếm, áo cánh trắng và váy dài với cạp váy nổi tiếng bởi các hoa văn được dệt kỳ công.',
+            cuisine: 'Trước kia gạo nếp là món chính, hiện nay gạo tẻ là nguồn lương thực chính. Rượu cần của người Mường nổi tiếng bởi hương vị đậm đà.',
+            production: 'Hoạt động kinh tế chủ yếu là nông nghiệp ruộng nước. Người Mường kết hợp nông nghiệp lúa nước với nương rẫy, chăn nuôi, săn bắn và tiểu thủ công nghiệp. Nghề dệt và đan lát phát triển.',
+            arts: 'Sử thi "Đẻ đất đẻ nước" là tác phẩm văn học dân gian tiêu biểu. Cồng chiêng Mường là di sản văn hóa phi vật thể quốc gia. Hát ru Mường nổi tiếng.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-muong-post723894.html' }]
+    },
+    {
+        id: 'tay',
+        name: 'Tày',
+        vietnameseName: 'Tày',
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '1.845.492 người (2019)',
+        languageGroup: 'Tày - Thái (Thái - Kađai)',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe947adba0d0588ec6cc7a375e408c5b91d6c2381094306107c33e4c998a37d06158/dat-9910-2499.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea533b65def1243ea6b756435bf753e636/le3.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c3297447277fc41872623a565ea44142f93/1.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe9401a48e106ffb349d0585dd357ab79362665a93bee8a0bdbdd6f063c57add1c55/dat9715-8587.jpeg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43eaf42391e3280354169e75fd3471d53155244ef0301e2f4b92b8d46967af2784412005e185a37d7d073f03e0d2e6315f96b96cf64dac302cd1da812fabb93d1ed2/1302826027159642526383704999964382030282951n.jpeg"],
+        introduction: 'Là một trong những chủ nhân đầu tiên của nước Việt cổ, dân tộc Tày có nhiều truyền thống lâu đời và bản sắc văn hóa đặc sắc.',
+        details: {
+            origin: 'Người Tày có mặt ở Việt Nam từ rất sớm, từ cuối thiên niên kỷ thứ nhất trước Công nguyên và là một trong những chủ nhân đầu tiên của nước Việt cổ.',
+            history: 'Người Tày là cư dân bản địa, đã sinh sống từ rất lâu đời ở vùng Đông Bắc Việt Nam, đóng góp quan trọng vào lịch sử dựng nước và giữ nước.',
+            distribution: 'Người Tày cư trú chủ yếu ở vùng thung lũng các tỉnh Đông Bắc: Quảng Ninh, Bắc Giang, Lạng Sơn, Cao Bằng, Bắc Kạn, Thái Nguyên, Hà Giang, Tuyên Quang, Lào Cai, Yên Bái.',
+            population: 'Theo số liệu Điều tra 53 dân tộc thiểu số năm 2019, dân tộc Tày có 1.845.492 người.',
+            language: 'Tiếng nói thuộc nhóm ngôn ngữ Tày - Thái (ngữ hệ Thái – Kađai).',
+            characteristics: 'Tổ chức xã hội theo đơn vị làng bản. Gia đình nhỏ phụ quyền là đơn vị kinh tế cơ bản.',
+            customs: 'Các nghi lễ vòng đời (sinh đẻ, cưới hỏi, tang ma) có ý nghĩa quan trọng trong đời sống tinh thần. Người Tày có nhiều lễ hội truyền thống đặc sắc.',
+            belief: 'Người Tày có nhiều hình thức tín ngưỡng dân gian: thờ tổ tiên, thờ Bà mụ, Phật Bà Quan Âm, Táo quân, thổ thần, thành hoàng.',
+            housing: 'Nhà ở truyền thống bao gồm: nhà sàn, nhà nửa sàn nửa đất và nhà phòng thủ. Nhà sàn năm gian, mái chéo hình lưỡi rìu là phổ biến nhất.',
+            clothing: 'Chủ yếu được làm bằng vải chàm đen, ít trang trí hoa văn. Nam giới mặc áo cánh bốn thân, xẻ ngực. Phụ nữ mặc áo năm thân, cài cúc bên nách phải.',
+            cuisine: 'Lương thực chính là gạo tẻ. Người Tày còn sử dụng gạo để làm cốm, bún, các loại bánh. Đặc biệt có món bánh trứng kiến là đặc sản.',
+            production: 'Đồng bào Tày đã khai thác các thung lũng thành những cánh đồng, triền ruộng bậc thang màu mỡ. Nghề thủ công phát triển: đan lát, dệt vải, nhuộm chàm, làm ngói.',
+            arts: 'Người Tày có nhiều làn điệu dân ca: lượn, then, quan lang, hát ví, hát ru, hát đồng dao. Đàn tính là nhạc cụ đặc trưng. Then là làn điệu dân ca đặc biệt.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-tay-post723931.html' }]
+    },
+    {
+        id: 'nung',
+        name: 'Nùng',
+        vietnameseName: 'Nùng',
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '1.083.298 người (2019)',
+        languageGroup: 'Tày - Thái (Thái - Kađai)',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2e8c1bad3a83f1f5f45fec3c7ce9fc7ea30970a3cf0dd3db683fd07a70f7c7ed6/nung-1853.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2e8c1bad3a83f1f5f45fec3c7ce9fc7ea30970a3cf0dd3db683fd07a70f7c7ed6/nung-1853.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2d48630bf3e6cfd411668e6d18eedfde0a746b520c83791b64958ba5146b084f1/dtnungthen-1491.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a20c23099674dbba3e32849477bff8ebfa0cbeca8a4d08c77e19fca4b787a1f940/nung1-4218.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a248d60d6c541ad755e157621aff6410c87f8b042a1845cdadaa57996283c31228/nung2-1718.jpg"],
+        introduction: 'Dân tộc Nùng là một trong những sắc dân có dân số đông ở Việt Nam, sinh sống phần lớn ở các tỉnh miền núi phía bắc.',
+        details: {
+            origin: 'Người Nùng phần lớn từ Quảng Tây (Trung Quốc) di cư sang cách đây khoảng 200-300 năm.',
+            history: 'Người Nùng di cư từ Trung Quốc sang Việt Nam và định cư tại vùng biên giới, hòa nhập với cộng đồng các dân tộc Việt Nam.',
+            distribution: 'Dân tộc Nùng sống tập trung ở các tỉnh Lạng Sơn, Cao Bằng, Bắc Kạn, Thái Nguyên, Hà Giang, Bắc Giang, Quảng Ninh, Lào Cai, Yên Bái.',
+            population: 'Theo số liệu Điều tra 53 dân tộc thiểu số năm 2019, người Nùng có 1.083.298 người.',
+            language: 'Tiếng nói thuộc nhóm ngôn ngữ Tày - Thái (ngữ hệ Thái – Kađai).',
+            characteristics: 'Người Nùng thờ ba đời (bố mẹ, ông bà, cụ). Vai trò người cậu (anh em trai của mẹ) rất lớn trong quan hệ thân tộc.',
+            customs: 'Ngày cưới, ngày sinh nhật nhất định phải có món lợn quay nhồi lá mắc mật. Tết Nguyên đán có mổ gà trống thiến, gói bánh chưng dài.',
+            belief: 'Người Nùng tin theo tín ngưỡng đa thần. Thờ cúng thần linh được thực hiện thông qua các lễ hội lùng tùng, cầu mùa. Vai trò của các thầy cúng: Tào, Mo, Pựt, Then rất quan trọng.',
+            housing: 'Ngôi nhà truyền thống tiêu biểu là nhà sàn ba tầng lợp ngói máng. Ở một số vùng, người Nùng làm nhà trình tường đất dày để chống rét.',
+            clothing: 'Y phục đơn giản, làm bằng vải thô tự dệt, nhuộm chàm. Nam giới mặc áo cổ đứng, xẻ ngực. Phụ nữ mặc áo năm thân, đội khăn vuông mỏ quạ.',
+            cuisine: 'Người Nùng ăn cơm gạo tẻ, xôi và các món bánh. Đặc sản: khâu nhục, lợn quay lá mắc mật, bánh ngải.',
+            production: 'Trồng trọt lúa nước, trồng cây hồi. Chăn nuôi trâu, bò, ngựa, dê, lợn, gà, ong, tằm, cá. Nghề rèn Phúc Sen (Cao Bằng) nổi tiếng cả nước.',
+            arts: 'Nét đặc trưng nhất là Then - nghi thức trình diễn vừa mang tính nghệ thuật vừa mang tính tâm linh. Hát Sli là hát giao duyên đặc trưng.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-nung-post723940.html' }]
+    },
+    {
         id: 'hmong',
-        name: 'Hmong',
-        region: 'Northern Mountains',
-        language: 'Hmong-Mien',
-        population: '1.3 Million',
-        clothingImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Hmong_women_in_Vietnam.jpg/800px-Hmong_women_in_Vietnam.jpg', // Placeholder
-        description: 'The Hmong are known for their colorful traditional clothing and rich oral traditions. They primarily inhabit the mountainous regions of Northern Vietnam.',
-        quote: 'Our patterns tell the story of our ancestors.',
-        coordinates: [22.33, 103.84] // Lao Cai area
-    },
-    {
-        id: 'ede',
-        name: 'Ede',
-        region: 'Central Highlands',
-        language: 'Austronesian',
-        population: '398,000',
-        clothingImage: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Ede_people.jpg',
-        description: 'The Ede people are matriarchal and live in longhouses. They are famous for their Gong culture.',
-        quote: 'The fire of the longhouse warms the soul of the clan.',
-        coordinates: [12.66, 108.03] // Dak Lak area
-    },
-    {
-        id: 'cham',
-        name: 'Cham',
-        region: 'South Central Coast',
-        language: 'Austronesian',
-        population: '179,000',
-        clothingImage: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Cham_people.jpg',
-        description: 'Descendants of the Champa Kingdom, the Cham people have a unique blend of Hindu and Islamic influences.',
-        quote: 'The towers stand as witnesses to time.',
-        coordinates: [11.58, 109.04] // Ninh Thuan area
-    },
-    {
-        id: 'khmer',
-        name: 'Khmer Krom',
-        region: 'Mekong Delta',
-        language: 'Mon-Khmer',
-        population: '1.3 Million',
-        clothingImage: 'https://upload.wikimedia.org/wikipedia/commons/5/52/Khmer_Krom_monks.jpg',
-        description: 'The Khmer Krom practice Theravada Buddhism and are integral to the culture of the Mekong Delta.',
-        quote: 'Water flows, and life follows.',
-        coordinates: [9.66, 105.97] // Soc Trang area
+        name: 'H\'Mông',
+        vietnameseName: 'H\'Mông',
+        otherNames: ['Mèo', 'Mẹo', 'Mông'],
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '1.393.547 người (2019)',
+        languageGroup: 'H\'Mông - Dao',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a291b8e99863f05ded9da1ef441ab205af163e0c64faf45df3dca2f569955f72d5498793ce918e4d5f298c3cde0554b762/xuanbenthem-ngmanhhai-1463.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc90c3471fad290af355ab61b17c6482e33d/anh157.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc901aa907a2df8a29f16e0886dd54a4d26c/anh207.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc90545d799b16e35a278329c04054470d8f/mongmc.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc90d8e7374a007a5409493e56304ac27c19/anh106.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc90c29e38503e5c35ef1e0bc5d54a2ae7feb7ae13cda333b1a658a4aa09dbd85477/mongmc1.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc9045d4e96f14420bb276b4a340ca3435a4b7ae13cda333b1a658a4aa09dbd85477/mongmc3.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc90d8c863fd2ae90af142435a28054dd73d/anh313.jpg"],
+        introduction: 'Hmông là một trong những dân tộc có dân số lớn ở Việt Nam và cũng có lịch sử thiên di đến Việt Nam từ lâu đời.',
+        details: {
+            origin: 'Cách nay khoảng 4-5 nghìn năm, hai tộc người Hmông và Dao cùng bị người Hán đẩy ra khỏi vùng đất Tam Miêu ở Trung Quốc.',
+            history: 'Vào cuối thế kỷ XVII đầu thế kỷ XVIII, họ bắt đầu thiên di vào vùng Đông Nam Á. Dựa trên màu sắc trang phục, người Hmông được chia thành 4 nhóm: Hmông Trắng, Hmông Đen, Hmông Xanh và Hmông Hoa.',
+            distribution: 'Chủ yếu ở các tỉnh Hà Giang, Sơn La, Điện Biên, Lào Cai, Lai Châu, Yên Bái, Thanh Hóa, Nghệ An, Đắk Lắk, Đắk Nông.',
+            population: 'Theo số liệu điều tra năm 2019: 1.393.547 người.',
+            language: 'Thuộc hệ Hmông-Dao.',
+            characteristics: 'Gia đình theo chế độ phụ hệ. Mỗi nhà có một khuôn viên riêng cách nhau bằng bức tường xếp đá.',
+            customs: 'Người Hmông ăn Tết năm mới truyền thống từ đầu tháng 12 âm lịch, sớm hơn tết Nguyên đán một tháng. Một số nơi còn tổ chức Tết Độc lập vào ngày 2/9.',
+            belief: 'Người Hmông thờ ông Trời. Do ảnh hưởng của Vật linh giáo, họ có quan niệm về "vạn vật hữu linh", mọi vật đều có linh hồn.',
+            housing: 'Nhà sàn, nhà gỗ lợp tranh, nhà trình tường đất. Nhà trệt có ba gian hai chái, có từ hai đến ba cửa. Gian giữa đặt bàn thờ.',
+            clothing: 'Trang phục rất sặc sỡ, đa dạng. Phụ nữ Hmông Trắng trồng lanh, dệt vải lanh, váy màu trắng. Phụ nữ Hmông Hoa mặc váy màu chàm có thêu hoặc in hoa văn bằng sáp ong.',
+            cuisine: 'Mèn mén (bột ngô đồ), các loại bánh bằng bột ngô, gạo, rượu ngô, rượu gạo, thắng cố (các loại thịt, xương, lòng nấu chung trong chảo to).',
+            production: 'Chủ yếu là sản xuất nông nghiệp: trồng trọt, chăn nuôi, săn bắt, đánh cá, hái lượm. Ngoài ra còn sản xuất thủ công gia đình.',
+            arts: 'Khèn H\'Mông là nhạc cụ truyền thống đặc trưng. Nghệ thuật vẽ sáp ong trên vải nổi tiếng. Múa khèn, hát dân ca trong các lễ hội.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-hmong-post723895.html' }]
     },
     {
         id: 'dao',
         name: 'Dao',
-        region: 'Northern Vietnam',
-        language: 'Hmong-Mien',
-        population: '890,000',
-        clothingImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Red_Dao_woman.jpg/800px-Red_Dao_woman.jpg',
-        description: 'The Dao people are known for their Red Dao sub-group who wear distinctive red headdresses. They are skilled in traditional medicine and agriculture.',
-        quote: 'The forest provides, if we respect it.',
-        coordinates: [21.8, 104.9] // Yen Bai area (approx)
+        vietnameseName: 'Dao',
+        otherNames: ['Kiềm Miền', 'Mán'],
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '891.151 người (2019)',
+        languageGroup: 'H\'Mông - Dao',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115f4a1f57e848fcfdca6d8d83162f9dc903f0276aa58325ed123eeb608b853efff6092314dacf3cea306995bef6d6c928d8181c345ebef9886929c052b36ed3ccf/ruoc-dau-tac-gia-nguyen-thanh-mien.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc9025ba9c9db5d36f75c82f45fad12235c2/dao.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc90016367827d1b46e585727b6295c33582b7ae13cda333b1a658a4aa09dbd85477/daotien.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a20961de7654512f70d9f57c603ae53f0a3eeef1884b9cc8ef90d9231768ac0d80/daodaiban-4175.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc2f4a1f57e848fcfdca6d8d83162f9dc902bc057bea5da3f73070617c025b59d081d58e3844d968d1724fa6e8955d0f82b5e2ef1da792b3c819691d528a6cf288a/nucuoichophientacgiabuitanviet.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2552002093a88129fd082f40d7abac4e81c4105e207821a189a29141310853c25/dtdaoquanchet-6633.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2552002093a88129fd082f40d7abac4e8b514b14b7bfa9997acbc79140885eda2b7ae13cda333b1a658a4aa09dbd85477/dtdaoquanchet1-4860.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2d52541972f2cfc101210760f84ca4f44f8f7aa806b72ec2a883df27ee95f5d3d/daobn-7202.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611593d4091ddd874bc6072c0621b9c3c8a2eed65ce11d3ab1fda1ec5a12d3ebbbf12a678c2b6230fb850b1a98f8b6578b19/daoaodai-9242.jpg"],
+        introduction: 'Người Dao có nhiều nhóm dân tộc, sinh sống tại hầu hết các tỉnh miền núi phía bắc, trung du Bắc Bộ, Tây Nguyên và một số tỉnh miền Đông Nam Bộ.',
+        details: {
+            origin: 'Người Dao có nguồn gốc từ Trung Quốc, việc chuyển cư sang Việt Nam kéo dài suốt từ thế kỷ XII, XIII cho đến nửa đầu thế kỷ XX.',
+            history: 'Các nhóm Dao gồm: Dao Đỏ, Dao Quần chẹt, Dao Lô gang, Dao Tiền, Dao Quần trắng, Dao Thanh Y, Dao Làn Tẻn.',
+            distribution: 'Hầu hết các tỉnh miền núi phía bắc, trung du Bắc Bộ, Tây Nguyên và một số tỉnh miền Đông Nam Bộ.',
+            population: 'Theo số liệu điều tra năm 2019: 891.151 người.',
+            language: 'Thuộc hệ Hmông-Dao.',
+            characteristics: 'Gia đình theo chế độ phụ hệ. Bàn vương được coi là thủy tổ của người Dao.',
+            customs: 'Lễ cấp sắc là nghi lễ quan trọng nhất, tất cả đàn ông đã đến tuổi trưởng thành đều phải qua lễ này. Người Dao ăn Tết vào tháng Giêng.',
+            belief: 'Vừa tin theo các tín ngưỡng nguyên thủy, các nghi lễ nông nghiệp vừa chịu ảnh hưởng sâu sắc của Khổng giáo, Phật giáo và nhất là Đạo giáo.',
+            housing: 'Nhà của người Dao rất đa dạng: nhà trệt, nhà sàn hay nhà nửa sàn nửa đất.',
+            clothing: 'Y phục rất sặc sỡ. Phụ nữ mặc áo dài yếm, váy hoặc quần. Họ thêu hoàn toàn dựa vào trí nhớ trên mặt trái của vải. Người Dao in hoa văn trên vải bằng sáp ong.',
+            cuisine: 'Người Dao ăn cơm là chính, một số nơi ăn ngô nhiều hơn. Thích ăn thịt luộc, các món thịt sấy khô, ướp chua, canh măng chua.',
+            production: 'Canh tác trên nương, thổ canh hốc đá, ruộng. Cây lương thực chính là lúa, ngô. Chăn nuôi trâu, bò, lợn, gà, ngựa, dê. Nghề làm bạc, làm giấy bản nổi tiếng.',
+            arts: 'Nghệ thuật tranh thờ đặc sắc. Múa nhảy trong các nghi lễ. Hát Páo dung (hát giao duyên).'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-dao-post723934.html' }]
+    },
+    {
+        id: 'sandiu',
+        name: 'Sán Dìu',
+        vietnameseName: 'Sán Dìu',
+        otherNames: ['Sơn Dao'],
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '183.004 người (2019)',
+        languageGroup: 'Hán - Tạng',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611590b4cafef6765d59c079519d0b9b88f4f2547809c4ec347f44097aeb58db70edb4c4b5461f4b472bd34d2b220fccd20657ed7acb4d544ab353c252131d673bf92428d55b7f980144278baf4c7f8b2c641b7ebca4412219d11aaa9a154302594dc073a814021a6c84dc8368fb0a816729f74284b5731f75b1c2262815014ec0862e5731ac51e3c45d2aa780283db4b11f/3252-mua-hoa-tren-dinh-tay-thien11-1643685023-16470791441601689231894-15-0-415-640-crop-1647079152293849116224.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f456957651ccc8b8f5fb6b5d50161aa71b7b944cd10b422c739dd00f3ca8d0330ef5d01eb/dat-1026-2773.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f456957653b2c37b3be9620d8c838c5edcc264a385f87059df069f45e3a32749f3a2d00d2/dat-1188-9164.jpg"],
+        introduction: 'Người Sán Dìu là một trong 53 dân tộc thiểu số ở nước ta, thuộc nhóm ngôn ngữ Hán-Tạng, sống tập trung ở trung du Bắc Bộ.',
+        details: {
+            origin: 'Căn cứ vào tên tự nhận là Sơn Dao, có thể người Sán Dìu có nguồn gốc là người Dao. Do sống lâu đời bên cạnh người Hán phương nam nên dần dần đã tiếp thu thổ ngữ Hán Quảng Đông.',
+            history: 'Người Sán Dìu di cư từ Trung Quốc sang Việt Nam và định cư tại vùng trung du.',
+            distribution: 'Cư trú tập trung tại các tỉnh: Thái Nguyên, Vĩnh Phúc, Bắc Giang, Quảng Ninh, Tuyên Quang, Hải Dương.',
+            population: 'Theo số liệu điều tra năm 2019: 183.004 người. Tỷ lệ dân số sống ở khu vực nông thôn chiếm 89,8%.',
+            language: 'Thuộc nhóm ngôn ngữ Hán-Tạng (thổ ngữ Hán Quảng Đông).',
+            characteristics: 'Người Sán Dìu cư trú thành những chòm, xóm riêng hoặc xen kẽ với người Hoa, người Kinh, người Tày, người Nùng.',
+            customs: 'Tục cưới hỏi có nhiều nghi lễ, đặc biệt là lễ khai hoa tửu. Riêng Tết Đông chí còn mang thêm ý nghĩa cầu mong có con đàn cháu đống.',
+            belief: 'Trên bàn thờ thường đặt ba bát hương thờ tổ tiên, pháp sư và táo quân. Ngoài ra còn thờ thổ thần ở miếu và thành hoàng ở đình.',
+            housing: 'Sống tập trung ở trung du Bắc Bộ, trên những đồi gò thấp miền trung du.',
+            clothing: 'Bộ y phục truyền thống của phụ nữ gồm: khăn đen, áo dài màu chàm, yếm màu đỏ, thắt lưng màu trắng hồng hoặc xanh lơ, váy chàm. Nam giới ăn mặc như người Việt.',
+            cuisine: 'Người Sán Dìu ăn cơm tẻ, độn thêm khoai sắn. Sau bữa ăn, thường húp thêm bát cháo loãng.',
+            production: 'Sinh tồn nhờ vào hạt lúa, củ khoai, bắp ngô, củ sắn. Canh tác trên 4 loại ruộng. Chăn nuôi gà, vịt, lợn, nuôi ong lấy mật. Nghề dệt, đan lát, gốm, mộc, rèn phát triển.',
+            arts: 'Hát giao duyên nam nữ - Soọng cô (hát về đêm) là nét văn hóa đặc trưng.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-san-diu-post723891.html' }]
+    },
+    {
+        id: 'sanchay',
+        name: 'Sán Chay',
+        vietnameseName: 'Sán Chay',
+        otherNames: ['Cao Lan', 'Sán Chỉ'],
+        region: 'Trung du và miền núi Bắc Bộ',
+        population: '201.398 người (2019)',
+        languageGroup: 'Tày - Thái / Hán - Tạng',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261158f58dcfed78b36f75768c51c0d3d7c32f25b1e255c6b2bec092750c188a6ee4f/h3_14.jpeg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43eae19e04bc65c96da8826e424aa0aa44df/lecung.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe9418e58a2a2b75df94d6403fc2c5f6b866/7-1-2208.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43eac9c1f4a692b0794f7461ac478543e20a548103f157b9b1b326b76d6c766fe1f37c9275aba83e03d8294fff5b374bf1af/5codauchuremoiruoumoitrau.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c327d539566b4b8ef839e23e65bfedd3c11/10.jpeg"],
+        introduction: 'Cư trú rải rác, xen lẫn các dân tộc ít người khác, song dân tộc Sán Chay vẫn hình thành cho mình một bản sắc văn hóa riêng.',
+        details: {
+            origin: 'Người Sán Chay từ Trung Quốc đến Việt Nam vào quãng cuối đời Minh, đầu đời Thanh, cách ngày nay 300-500 năm.',
+            history: 'Người Sán Chay hình thành hai nhóm địa phương: Cao Lan và Sán Chỉ. Tiếng Cao Lan thuộc nhóm Tày-Thái, còn tiếng Sán Chỉ thuộc nhóm ngôn ngữ Hán.',
+            distribution: 'Cư trú rải rác tại: Tuyên Quang, Thái Nguyên, Bắc Giang, Quảng Ninh, Cao Bằng, Lạng Sơn, Phú Thọ, Vĩnh Phúc.',
+            population: 'Theo số liệu điều tra năm 2019: 201.398 người. Tỷ lệ dân số sống ở khu vực nông thôn: 94.7%.',
+            language: 'Tiếng Cao Lan thuộc nhóm Tày-Thái, tiếng Sán Chỉ thuộc nhóm ngôn ngữ Hán (ngữ hệ Hán Tạng).',
+            characteristics: 'Người Sán Chay có nhiều bàn thờ trong nhà: ngoài thờ cúng tổ tiên, còn thờ trời đất, thổ công, bà mụ, thần nông, thần chăn nuôi.',
+            customs: 'Hằng năm, đến trước tết Nguyên đán, các bàn thờ được quét dọn và dán lên một mảnh giấy đỏ.',
+            belief: 'Thờ cúng tổ tiên và thờ nhiều thần: trời đất, thổ công, bà mụ, thần nông, thần chăn nuôi.',
+            housing: 'Nhà ở truyền thống thường là nhà sàn và nhà nửa sàn nửa đất. Mặt bằng sinh hoạt được chia thành nhiều khu vực khác nhau.',
+            clothing: 'Phụ nữ mặc váy chàm và áo dài có trang trí hoa văn ở nách áo và lưng áo, thắt lưng hai màu đỏ và xanh lơ. Nam giới mặc áo chàm dài hoặc ngắn.',
+            cuisine: 'Nguồn thức ăn chủ yếu là gạo nếp và gạo tẻ, bên cạnh đó là ngô, khoai, sắn. Phụ nữ ăn trầu, đàn ông hút thuốc lào.',
+            production: 'Trồng trọt cây lương thực trên đất dốc là hoạt động kinh tế chủ đạo. Canh tác vườn đồi (vải, nhãn, hồng) mang lại hiệu quả kinh tế cao. Chăn nuôi trâu, bò, gia cầm. Nuôi ong mật phát triển.',
+            arts: 'Nổi bật là làn điệu dân ca trữ tình - Sình ca (hát giao duyên nam nữ). Các điệu múa: múa trống, múa xúc tép, múa chim, múa đâm cá. Nhạc cụ: thanh la, não bạt, trống, khèn ống nứa.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-san-chay-post723930.html' }]
+    },
+    {
+        id: 'ede',
+        name: 'Ê-đê',
+        vietnameseName: 'Ê-đê',
+        otherNames: ['Rađê', 'Đê'],
+        region: 'Tây Nguyên',
+        population: '398.671 người (2019)',
+        languageGroup: 'Mã Lai - Đa Đảo',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611590b4cafef6765d59c079519d0b9b88f47d48c1e1e294a23245250efeed9d65ee1ead718eb38f27066f8623ff674cce676fee0311a3d839de7f6e91b32862d50f/deb2680fb72dfcb5bf715b25c3ba06b5.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f45695765a74434b5bcb341a66129195e77177c6934323f474be908eda1b216c9bb4c51dd/dat-5672-1092.jpg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f4569576530c12ed055cb247c472e797f7bdecca1ff9f9d2a9af813acf8c1a189ec3b96c3/dat-5173-723.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc290b4cafef6765d59c079519d0b9b88f4f07a0b0f3cf3ddba18987f12e9f1c78db7ae13cda333b1a658a4aa09dbd85477/levat.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc290b4cafef6765d59c079519d0b9b88f41a40354b2902f0c267169ebfe5b162db6d6c12519f676b962f087413889df8ef602f83350f66a7e08c893531febd98d9/92ae24be26e5ae8365ed4795dbe6aeac.jpeg"],
+        introduction: 'Dân tộc Ê-đê gồm có nhiều nhóm địa phương: Kpạ, A-đham, Krung, Mđhur, Ktul, Đliê, Ruê, Bih... sinh sống từ lâu đời tại khu vực Tây Nguyên.',
+        details: {
+            origin: 'Người Ê-đê là cư dân bản địa, sinh sống từ lâu đời trên cao nguyên Đắk Lắk.',
+            history: 'Thuộc nhóm các dân tộc nói ngôn ngữ Mã Lai - Đa Đảo, có lịch sử gắn liền với vùng đất Tây Nguyên.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Đắk Lắk, một phần ở Đắk Nông, Phú Yên, Khánh Hòa.',
+            population: 'Theo số liệu điều tra năm 2019: 398.671 người.',
+            language: 'Thuộc nhóm ngôn ngữ Mã Lai - Đa Đảo (ngữ hệ Nam Đảo).',
+            characteristics: 'Xã hội theo chế độ mẫu hệ. Đàn ông về ở nhà vợ sau khi cưới. Con cái mang họ mẹ.',
+            customs: 'Nhiều nghi lễ: lễ bỏ mả, lễ cúng bến nước, lễ mừng lúa mới. Phong tục ở rể phổ biến.',
+            belief: 'Thờ đa thần: Yàng (trời), thần lúa, thần núi, thần sông. Các nghi lễ nông nghiệp quan trọng.',
+            housing: 'Nhà dài truyền thống là đặc trưng văn hóa. Nhà có thể dài hàng trăm mét, nhiều thế hệ sống chung theo dòng họ mẹ.',
+            clothing: 'Nam đóng khố, nữ mặc váy quấn. Trang phục thường có màu chàm, được trang trí hoa văn đặc trưng.',
+            cuisine: 'Cơm nếp, thịt nướng, rượu cần là đặc trưng. Rượu cần uống trong các lễ hội, nghi lễ.',
+            production: 'Canh tác rẫy là chính, trồng lúa nương, ngô, sắn. Chăn nuôi trâu, bò, lợn, gà. Nghề dệt và đan lát phát triển.',
+            arts: 'Cồng chiêng Tây Nguyên là Di sản văn hóa phi vật thể của nhân loại. Múa xoang, kể khan (sử thi) nổi tiếng.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-e-de-post723907.html' }]
+    },
+    {
+        id: 'giarai',
+        name: 'Gia-rai',
+        vietnameseName: 'Gia-rai',
+        otherNames: ['Gia Rai', 'Jarai'],
+        region: 'Tây Nguyên',
+        population: '513.930 người (2019)',
+        languageGroup: 'Mã Lai - Đa Đảo',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf43696082611590b4cafef6765d59c079519d0b9b88f4029561c2867ca47261c05e3f3e8b7ac8b96cf64dac302cd1da812fabb93d1ed2/download_2.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f456957654474659b2e12ba612d4e3723bb15d377d2fe5b35562981361324096cf175a024/img-3471-4362.jpg"],
+        introduction: 'Gia-rai là một trong năm dân tộc thuộc nhóm ngôn ngữ Mã Lai-Đa Đảo và là một trong những dân tộc tại chỗ thuộc khu vực Tây Nguyên.',
+        details: {
+            origin: 'Người Gia-rai là cư dân bản địa, sinh sống từ lâu đời trên vùng cao nguyên.',
+            history: 'Là một trong những dân tộc có dân số đông nhất ở Tây Nguyên, có lịch sử và văn hóa phong phú.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Gia Lai, một phần ở Kon Tum, Đắk Lắk.',
+            population: 'Theo số liệu điều tra năm 2019: 513.930 người.',
+            language: 'Thuộc nhóm ngôn ngữ Mã Lai - Đa Đảo (ngữ hệ Nam Đảo).',
+            characteristics: 'Xã hội theo chế độ mẫu hệ. Làng (plei) là đơn vị cư trú và quản lý xã hội cơ bản.',
+            customs: 'Nhiều nghi lễ: lễ bỏ mả, lễ pơ thi (bỏ mả), lễ mừng lúa mới, lễ cầu mưa.',
+            belief: 'Thờ đa thần: Yàng, thần lúa, thần rừng, thần núi. Vai trò thầy cúng rất quan trọng.',
+            housing: 'Nhà rông là công trình kiến trúc độc đáo, là nơi sinh hoạt cộng đồng của làng. Nhà dài theo dòng họ mẹ.',
+            clothing: 'Nam đóng khố, nữ mặc váy quấn. Trang phục có nhiều hoa văn trang trí đẹp mắt.',
+            cuisine: 'Cơm nếp, thịt nướng, canh lá mì, rượu cần là đặc trưng ẩm thực.',
+            production: 'Canh tác rẫy, trồng lúa nương, hoa màu. Chăn nuôi trâu, bò, lợn, gà. Nghề dệt thổ cẩm nổi tiếng.',
+            arts: 'Cồng chiêng là Di sản văn hóa phi vật thể nhân loại. Múa xoang, sử thi, nhạc cụ dân tộc phong phú.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-gia-rai-post723906.html' }]
+    },
+    {
+        id: 'bana',
+        name: 'Ba Na',
+        vietnameseName: 'Ba Na',
+        otherNames: ['Ba-na', 'Bơ Nâm'],
+        region: 'Tây Nguyên',
+        population: '286.910 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe945b774f4a3846682e30c401f73f8342c7/11-1918.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43eaab56fad856abacf06160c4228362dcd0d8e5787c328cf6f4025a891cbc364b317c9275aba83e03d8294fff5b374bf1af/camnhi205121015152nharong.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c32aa6b74a70901e5db80464bc8a49a639e/3.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe941192222cf5883a1f4637a0e1663f934c63a899dc0d598a8828a44264337440e8/ba-na6-692.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea2c4a567358311d84396b73b2d4140834665a93bee8a0bdbdd6f063c57add1c55/dsc2551copy.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c320e097613aaea3baf11c4e4685ebab171/7.jpeg"],
+        introduction: 'Là tộc người có dân số đông nhất trong các dân tộc nói ngôn ngữ Môn-Khơ-me ở Tây Nguyên, lịch sử phát triển gắn liền lịch sử các dân tộc Tây Nguyên.',
+        details: {
+            origin: 'Người Ba Na là cư dân bản địa, sinh sống từ lâu đời trên vùng Tây Nguyên.',
+            history: 'Có lịch sử lâu đời, hình thành nền văn hóa độc đáo và đặc sắc gắn liền với Tây Nguyên.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Gia Lai, Kon Tum và một phần Bình Định, Phú Yên.',
+            population: 'Theo số liệu điều tra năm 2019: 286.910 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á).',
+            characteristics: 'Làng là đơn vị xã hội cơ bản. Vai trò già làng rất quan trọng trong đời sống cộng đồng.',
+            customs: 'Nhiều nghi lễ: lễ đâm trâu, lễ bỏ mả, lễ mừng lúa mới, lễ cúng bến nước.',
+            belief: 'Thờ đa thần: Yàng, thần lúa, thần rừng, thần núi, thần sông. Tin vào linh hồn tổ tiên.',
+            housing: 'Nhà rông là biểu tượng văn hóa, là công trình kiến trúc độc đáo của làng. Nhà ở có kiểu nhà sàn.',
+            clothing: 'Nam đóng khố, nữ mặc váy quấn và áo chui đầu. Trang phục có nhiều hoa văn trang trí.',
+            cuisine: 'Cơm nếp nướng trong ống tre (cơm lam), rượu cần, thịt nướng là đặc trưng.',
+            production: 'Canh tác rẫy, trồng lúa nương, hoa màu. Chăn nuôi trâu, bò. Nghề đan lát, dệt vải phát triển.',
+            arts: 'Cồng chiêng, múa xoang, nhạc cụ dân tộc đa dạng. Nghệ thuật điêu khắc gỗ phát triển.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-ba-na-post723892.html' }]
+    },
+    {
+        id: 'coho',
+        name: 'Cơ-ho',
+        vietnameseName: 'Cơ-ho',
+        otherNames: ['Kơ Ho', 'Srê', 'Nộp'],
+        region: 'Tây Nguyên',
+        population: '200.800 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94584e9d10c0e2fd7b1f72a95b97d80fb5e667d376bf869970b83bd2a9ea12e0ea/co-ho3-2753.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea4ba50ecb3e187c2abad34558ae47cb86b7ae13cda333b1a658a4aa09dbd85477/img0267.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe943b21502bfd7e0a1494a3826a7fab706063a899dc0d598a8828a44264337440e8/co-ho-8591.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c3229eddbec863bda080c6a774d105632df7c9275aba83e03d8294fff5b374bf1af/img03261.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c321c4728a0e43f1c449ee783b18d3d39b0b7ae13cda333b1a658a4aa09dbd85477/anuong.jpeg"],
+        introduction: 'Là đồng chủ nhân của văn hóa Sa Huỳnh, dân tộc Cơ-ho đã ngụ cư lâu đời ở Tây Nguyên và tạo nên một truyền thống văn hóa riêng, đặc sắc.',
+        details: {
+            origin: 'Người Cơ-ho là cư dân bản địa, sinh sống từ lâu đời trên vùng Nam Tây Nguyên.',
+            history: 'Được coi là đồng chủ nhân của văn hóa Sa Huỳnh, có lịch sử gắn liền với vùng đất Tây Nguyên.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Lâm Đồng, một phần ở Bình Thuận, Khánh Hòa, Ninh Thuận.',
+            population: 'Theo số liệu điều tra năm 2019: 200.800 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á).',
+            characteristics: 'Xã hội theo chế độ mẫu hệ. Làng là đơn vị cư trú cơ bản.',
+            customs: 'Nhiều nghi lễ nông nghiệp: lễ cúng lúa, lễ mừng lúa mới, lễ bỏ mả.',
+            belief: 'Thờ đa thần: Yàng, thần lúa, thần rừng. Tin vào linh hồn và ma.',
+            housing: 'Nhà sàn truyền thống. Một số nhóm ở nhà trệt.',
+            clothing: 'Nam đóng khố, nữ mặc váy quấn. Trang phục đơn giản, ít hoa văn.',
+            cuisine: 'Cơm nếp, rượu cần, thịt nướng là đặc trưng. Ẩm thực đơn giản.',
+            production: 'Canh tác rẫy, trồng lúa nương, hoa màu. Chăn nuôi trâu, bò, lợn. Săn bắn, hái lượm.',
+            arts: 'Cồng chiêng, nhạc cụ dân tộc. Múa trong các lễ hội. Nghệ thuật dân gian phong phú.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-co-ho-post723902.html' }]
+    },
+    {
+        id: 'xtieng',
+        name: 'Xtiêng',
+        vietnameseName: 'Xtiêng',
+        otherNames: ['Stiêng', 'Xa Điêng'],
+        region: 'Đông Nam Bộ',
+        population: '100.752 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94f8e604d80029782a8227236f53bbc63ecbda775fac77a4b7dee2b040e7ed8b5b/-tha5496-s-s-2936.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c32133ed07780da7cb89d55ee93827625a1/40.jpeg", "https://cdn.nhandan.vn/images/a7f7a3d09022451960afcabc731d1d70f28c018f6d7e0bb14594547716c7786adb5b731f8bd93f06a58ed9d4be6dfd61613467213fbdff9704c66d41feb2aad5/-tha5396-s-s-4222.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea68de8628d63a10cd2b25aa743c7152d1/3.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94429d3aa33daebba78b13f2ddd8dc54acc2381094306107c33e4c998a37d06158/-tha5238-2339.jpg"],
+        introduction: 'Mặc dù có quy mô không quá lớn, nhưng người Xtiêng đã hình thành nên một cộng đồng gắn kết với bản sắc riêng, trở thành mảnh ghép độc đáo trong bức tranh 54 dân tộc Việt Nam.',
+        details: {
+            origin: 'Người Xtiêng là cư dân bản địa, sinh sống từ lâu đời ở vùng Đông Nam Bộ.',
+            history: 'Có lịch sử lâu đời gắn liền với vùng đất Đông Nam Bộ, có nhiều đóng góp trong lịch sử kháng chiến.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Bình Phước, một phần ở Tây Ninh, Đồng Nai.',
+            population: 'Theo số liệu điều tra năm 2019: 100.752 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á).',
+            characteristics: 'Xã hội có tổ chức làng bản. Vai trò già làng quan trọng.',
+            customs: 'Nhiều nghi lễ nông nghiệp: lễ cúng lúa, lễ mừng lúa mới.',
+            belief: 'Thờ đa thần, tin vào thần linh và ma. Thờ cúng tổ tiên.',
+            housing: 'Nhà sàn truyền thống, một số ở nhà trệt.',
+            clothing: 'Nam đóng khố, nữ mặc váy quấn. Trang phục đơn giản.',
+            cuisine: 'Cơm nếp, rượu cần, thịt rừng là đặc trưng.',
+            production: 'Canh tác rẫy, trồng lúa nương, hoa màu. Chăn nuôi, săn bắn, hái lượm.',
+            arts: 'Cồng chiêng, nhạc cụ dân tộc. Múa trong các lễ hội.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-xtieng-post723919.html' }]
+    },
+    {
+        id: 'cotu',
+        name: 'Cơ-tu',
+        vietnameseName: 'Cơ-tu',
+        otherNames: ['Ca Tu', 'Katu'],
+        region: 'Bắc Trung Bộ',
+        population: '74.173 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94489fecb29724b3d25d9cc6261b140a1e63a899dc0d598a8828a44264337440e8/cotu3-8006.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea2f088a36c4e5b8e8a44b683f7e47d08fb7ae13cda333b1a658a4aa09dbd85477/img0996.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94b69461acead410f3e9a19ccdb52851a563a899dc0d598a8828a44264337440e8/cotu1-3645.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c323364ec835261c1e9206eca4833123df8/15.jpeg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea3c60dfb73cc5652a1b3d55dd154ad5be/a115.jpeg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c321e0c1a13c5d95f7911ab11bb907b957bddfc830d6d524d318fcf4691de7296fd6c7eced9e3b39627b15cce031aca83dd2eebd0608237e4e52a9e184b8f664a462589ec623533b6ce2231024f64ee4492/79957vhttdtgioithieuamthucdactrungcuadongbaodantoccactinhmientrung.jpeg"],
+        introduction: 'Mặc dù nguồn gốc hình thành của dân tộc Cơ-tu còn gây nhiều tranh cãi, song không thể phủ nhận rằng đồng bào Cơ-tu có một nền văn hóa đặc sắc, mang đậm dấu ấn riêng.',
+        details: {
+            origin: 'Người Cơ-tu là cư dân bản địa, sinh sống từ lâu đời ở vùng núi Trường Sơn.',
+            history: 'Có lịch sử lâu đời gắn liền với dãy Trường Sơn, có nhiều đóng góp trong các cuộc kháng chiến.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Quảng Nam, Thừa Thiên Huế và một phần ở Đà Nẵng.',
+            population: 'Theo số liệu điều tra năm 2019: 74.173 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á).',
+            characteristics: 'Xã hội có tổ chức làng bản. Vai trò già làng rất quan trọng.',
+            customs: 'Nhiều nghi lễ: lễ đâm trâu, lễ mừng lúa mới, lễ cúng bến nước. Lễ hội Gươl nổi tiếng.',
+            belief: 'Thờ đa thần, tin vào thần linh và ma. Thờ cúng tổ tiên.',
+            housing: 'Nhà Gươl (nhà rông) là công trình kiến trúc độc đáo, là nơi sinh hoạt cộng đồng của làng.',
+            clothing: 'Nam đóng khố, nữ mặc váy. Trang phục có nhiều hoa văn trang trí đẹp mắt với màu sắc sặc sỡ.',
+            cuisine: 'Cơm nếp, rượu cần, thịt rừng là đặc trưng. Ẩm thực đơn giản.',
+            production: 'Canh tác rẫy, trồng lúa nương, hoa màu. Chăn nuôi, săn bắn, hái lượm.',
+            arts: 'Cồng chiêng, múa, nhạc cụ dân tộc. Nghệ thuật trang trí cây nêu độc đáo. Múa Tung tung da dá nổi tiếng.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-co-tu-post723928.html' }]
+    },
+    {
+        id: 'hre',
+        name: 'Hrê',
+        vietnameseName: 'Hrê',
+        otherNames: ['Chăm Rê', 'Mọi'],
+        region: 'Duyên hải Nam Trung Bộ',
+        population: '149.460 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94c4030c40c6ff0f7b806547b408ad7f13b7ae13cda333b1a658a4aa09dbd85477/hre4-7959.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43eaec2f2b6de068f9043d0117c63b552c41/8.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe941f1ee6aadc4cce19097665a07df9d538b7ae13cda333b1a658a4aa09dbd85477/hre5-2823.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea3fff5e09c410506e5863c576d194bb48f1e60bdeece647858e070fbb50743d7a/imagehandler003.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe9470f497b09cc5e12e8614cd16b0baf642b7ae13cda333b1a658a4aa09dbd85477/hre2-2340.jpg"],
+        introduction: 'Ngụ cư lâu đời ở vùng Trường Sơn - Tây Nguyên, nhưng phần lớn người Hrê sống dựa vào làm ruộng nước, một số ít làm rẫy.',
+        details: {
+            origin: 'Người Hrê là cư dân bản địa, sinh sống từ lâu đời trên vùng núi miền Trung.',
+            history: 'Có lịch sử lâu đời, gắn liền với vùng đất miền Trung Việt Nam.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Quảng Ngãi, một phần ở Bình Định.',
+            population: 'Theo số liệu điều tra năm 2019: 149.460 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á).',
+            characteristics: 'Làng là đơn vị xã hội cơ bản. Người Hrê sống dựa vào làm ruộng nước là chính.',
+            customs: 'Nhiều nghi lễ nông nghiệp: lễ cúng lúa, lễ mừng lúa mới.',
+            belief: 'Thờ đa thần, tin vào thần linh. Thờ cúng tổ tiên.',
+            housing: 'Nhà sàn truyền thống.',
+            clothing: 'Nam đóng khố, nữ mặc váy. Trang phục đơn giản.',
+            cuisine: 'Cơm nếp, rượu cần là đặc trưng.',
+            production: 'Làm ruộng nước là chính, một số ít làm rẫy. Chăn nuôi, săn bắn, hái lượm.',
+            arts: 'Cồng chiêng, nhạc cụ dân tộc đa dạng. Nhiều nghi lễ và lễ hội truyền thống.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-hre-post723910.html' }]
+    },
+    {
+        id: 'bruvankieu',
+        name: 'Bru-Vân Kiều',
+        vietnameseName: 'Bru-Vân Kiều',
+        otherNames: ['Vân Kiều', 'Bru'],
+        region: 'Bắc Trung Bộ',
+        population: '94.598 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94765a2612662dc07d3211af02df13baa7a66b6e9345b8decf13637838d5d59cf52856e09633ba87d157d18d854c7e121b2dce9e5bd5e47dd866e2269cc7c93e25/z3727401658389-304c87696948b44dc3ec795bb706ab22-5876.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea20b2c480f569f5ccc17f5b9a8d402f67b7ae13cda333b1a658a4aa09dbd85477/vankieu.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94ac047d9cb76b81909ae2c56e565a68f5be8b89d1dd1f0fbae6dfa34b146a20f9/bru-van-kieu4-6492.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c32445273ce7912b418ea6af387a2e6e179/4.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94d9ae2386af00cc6beead623bdea4b7d08d3981bac1af2aa1775c7d437b287f9741c2de258aad3eb61a3742fb9a8f120525222cd1d0b7596627412ec2455e1a3e/z3727402066085fc2af90d14353371db955613eb0c32b4-9865.jpeg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea64e80e749095af80a72b37e6d2d73959b7ae13cda333b1a658a4aa09dbd85477/hoho520.jpeg"],
+        introduction: 'Sinh sống lâu đời nơi dãy Trường Sơn hùng vĩ, người Bru-Vân Kiều có đời sống tinh thần rất đặc sắc. Hầu hết đồng bào đã lấy họ Hồ để thể hiện lòng thành kính với Bác Hồ.',
+        details: {
+            origin: 'Người Bru-Vân Kiều là cư dân bản địa, sinh sống từ lâu đời ở vùng Trường Sơn.',
+            history: 'Có lịch sử lâu đời gắn liền với dãy Trường Sơn, có nhiều đóng góp trong kháng chiến chống Mỹ. Đồng bào lấy họ Hồ của Chủ tịch Hồ Chí Minh.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Quảng Trị, Quảng Bình và một phần ở Thừa Thiên Huế.',
+            population: 'Theo số liệu điều tra năm 2019: 94.598 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á).',
+            characteristics: 'Xã hội có tổ chức làng bản. Hầu hết lấy họ Hồ từ Chủ tịch Hồ Chí Minh.',
+            customs: 'Nhiều nghi lễ nông nghiệp, lễ cúng tổ tiên, lễ hội truyền thống.',
+            belief: 'Thờ đa thần, tin vào thần linh. Thờ cúng tổ tiên.',
+            housing: 'Nhà sàn truyền thống.',
+            clothing: 'Nam đóng khố, nữ mặc váy. Trang phục đơn giản.',
+            cuisine: 'Cơm nếp, rượu cần, thịt rừng là đặc trưng.',
+            production: 'Canh tác rẫy, trồng lúa nương, hoa màu. Chăn nuôi, săn bắn, hái lượm.',
+            arts: 'Cồng chiêng, nhạc cụ dân tộc. Múa trong các lễ hội. Văn hóa dân gian phong phú.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-bru-van-kieu-post723920.html' }]
+    },
+    {
+        id: 'cham',
+        name: 'Chăm',
+        vietnameseName: 'Chăm',
+        otherNames: ['Chàm', 'Chiêm', 'Chiêm Thành', 'Chămpa', 'Hroi'],
+        region: 'Duyên hải Nam Trung Bộ',
+        population: '178.948 người (2019)',
+        languageGroup: 'Mã Lai - Đa Đảo',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf436960826115bb4be614861eca710cf0d58f45695765fdf15a65eac1b0f2678c77de6191c923978e63db9dc340c8513c9c24a9d06a6d/dat-4623-4884.jpg", "http://files.ubdt.gov.vn/ContentFolder/ubdt/source_files/2016/06/06/4cdab2be-6306-40dd-9de0-65e21c14b593_201606060.jpeg", "http://files.ubdt.gov.vn/ContentFolder/ubdt/source_files/2016/06/06/c2eeabf7-7f56-4c8c-bd7d-a7936f51abef_201606061.jpeg", "http://files.ubdt.gov.vn/ContentFolder/ubdt/source_files/2016/06/06/58ab0f20-a05e-4b1b-afd2-b7797a5f060d_201606062.jpeg"],
+        introduction: 'Người Chăm là một trong năm dân tộc thuộc nhóm ngôn ngữ Mã Lai-Đa Đảo ở Việt Nam, có nền văn minh rực rỡ trong lịch sử.',
+        details: {
+            origin: 'Người Chăm là hậu duệ của vương quốc Chămpa cổ đại, có nền văn minh rực rỡ gắn với vùng duyên hải miền Trung.',
+            history: 'Là hậu duệ của vương quốc Chămpa cổ đại, có lịch sử hàng nghìn năm với nhiều di sản văn hóa quý giá.',
+            distribution: 'Cư trú chủ yếu tại tỉnh Ninh Thuận, Bình Thuận, một phần ở An Giang, Tây Ninh, Thành phố Hồ Chí Minh.',
+            population: 'Theo số liệu điều tra năm 2019: 178.948 người.',
+            language: 'Thuộc nhóm ngôn ngữ Mã Lai - Đa Đảo (ngữ hệ Nam Đảo). Có chữ viết riêng.',
+            characteristics: 'Xã hội theo chế độ mẫu hệ. Người Chăm có nền văn minh cao, có chữ viết riêng.',
+            customs: 'Nhiều lễ hội: lễ hội Katê (Chăm Bà-la-môn), lễ hội Ramưwan (Chăm Bà-ni/Hồi giáo). Lễ cưới theo phong tục mẫu hệ.',
+            belief: 'Có hai nhóm tôn giáo chính: Chăm Bà-la-môn thờ thần Hindu (Shiva), Chăm Bà-ni theo đạo Hồi. Thờ cúng tổ tiên.',
+            housing: 'Nhà truyền thống có kiến trúc độc đáo với nhiều công trình đền tháp nổi tiếng.',
+            clothing: 'Phụ nữ mặc áo dài, quấn khăn trên đầu. Nam giới mặc sarong. Trang phục có nhiều hoa văn đẹp mắt.',
+            cuisine: 'Ẩm thực phong phú với nhiều món ăn đặc trưng: bánh gừng, cốm dẹp, cà ri Chăm.',
+            production: 'Nông nghiệp trồng lúa nước, hoa màu. Chăn nuôi dê, bò, cừu. Nghề dệt thổ cẩm, làm gốm Bàu Trúc nổi tiếng.',
+            arts: 'Kiến trúc đền tháp Chămpa là Di sản văn hóa thế giới. Múa Apsara, nhạc cụ truyền thống. Nghệ thuật điêu khắc đá phát triển.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-cham-post723909.html' }]
+    },
+    {
+        id: 'khmer',
+        name: 'Khơ-me',
+        vietnameseName: 'Khơ-me',
+        otherNames: ['Khmer', 'Thổ'],
+        region: 'Đồng bằng sông Cửu Long',
+        population: '1.319.652 người (2019)',
+        languageGroup: 'Môn - Khơ-me',
+        images: ["https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261158f58dcfed78b36f75768c51c0d3d7c320f025c00e3dea2c366c16d4f06c5a6a125bfb68deb417754aad6c659dd41c94d7cf10a12c31871ed476f73b9428bc0f35cfacd5ee898d181029010948d9846a0/dieu_mua_khmernguyen_thi_thanh_kieu_phuong.jpg", "https://cdn.nhandan.vn/images/a2fb952abd4504389bfea2e4f7b4acc28f58dcfed78b36f75768c51c0d3d7c324283c4d8fc7eba392bd95aa0ffd0607bb96cf64dac302cd1da812fabb93d1ed2/dscn9692sua.jpeg", "https://cdn.nhandan.vn/images/1ea1ae7a315d88fc6fbf4369608261153db45666ade1b00696e46e3ebcd8fe94a285b0c7e0a961af4c6d117106c82314c2381094306107c33e4c998a37d06158/dat-3757-4944.jpg", "https://cdn.nhandan.vn/images/e6b4132c7bac2d44cea9c591f9480818e6fd39f751cab8ae57652fd0bd6e43ea054aa82f5d36831c1386ab68db9435312432b99cc4e0b22b3526bfbb1bca0b1cfa8beb3bcb6e7f404e3ab7d1d198a6b19f1a765291ca7958b1fb8539c86df17b7500438e4868d4f2e5234407d8ade39eb7ae13cda333b1a658a4aa09dbd85477/langnghedandattruyenthongcuadongbaokhmersoctrangtacgianguyenthithanhkieu.jpg"],
+        introduction: 'Người Khơ-me là dân tộc bản địa có lịch sử định canh định cư rất lâu dài, chủ yếu ở miền nam Việt Nam, đặc biệt là đồng bằng sông Cửu Long.',
+        details: {
+            origin: 'Người Khơ-me là cư dân bản địa, sinh sống từ lâu đời ở vùng đồng bằng sông Cửu Long.',
+            history: 'Có lịch sử lâu đời gắn liền với vùng đất Nam Bộ, có nhiều đóng góp vào lịch sử phát triển của vùng đất này.',
+            distribution: 'Cư trú chủ yếu tại các tỉnh Sóc Trăng, Trà Vinh, Kiên Giang, An Giang, Bạc Liêu, Cà Mau và một số tỉnh khác ở ĐBSCL.',
+            population: 'Theo số liệu điều tra năm 2019: 1.319.652 người.',
+            language: 'Thuộc nhóm ngôn ngữ Môn - Khơ-me (ngữ hệ Nam Á). Có chữ viết riêng.',
+            characteristics: 'Xã hội tổ chức theo đơn vị phum, sóc (xóm, làng). Chùa là trung tâm sinh hoạt văn hóa, tôn giáo của cộng đồng.',
+            customs: 'Nhiều lễ hội: Tết Chôl Chnăm Thmây (năm mới), lễ Sen Đôn-ta (báo hiếu), lễ Ok Om Bok (cúng trăng), lễ hội đua ghe ngo.',
+            belief: 'Đa số theo Phật giáo Nam tông (Tiểu thừa). Chùa chiền là trung tâm văn hóa, tôn giáo của mỗi phum, sóc.',
+            housing: 'Nhà sàn truyền thống. Ngày nay nhiều người ở nhà trệt. Các ngôi chùa có kiến trúc độc đáo.',
+            clothing: 'Phụ nữ mặc sà-rông (váy quấn), áo bà ba. Nam giới mặc xà lùng (khố). Trang phục lễ hội rực rỡ màu sắc.',
+            cuisine: 'Ẩm thực phong phú: bún nước lèo, bánh Kà Tum, mắm bò hóc. Nhiều món ăn độc đáo từ cá, tôm.',
+            production: 'Nông nghiệp trồng lúa nước phát triển. Chăn nuôi, đánh bắt thủy sản. Nghề dệt, đan lát, làm đường thốt nốt.',
+            arts: 'Kiến trúc chùa chiền độc đáo. Múa Apsara, múa lâm-vông. Nhạc cụ: đàn Chapey, dàn ngũ âm. Nghệ thuật sân khấu Rô-băm, Dù-kê.'
+        },
+        sources: [{ name: 'Báo Nhân Dân', url: 'https://nhandan.vn/dan-toc-kho-me-post723889.html' }]
     }
 ];

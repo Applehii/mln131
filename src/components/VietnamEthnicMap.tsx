@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON, useMapEvents, Polygon, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { ethnicClusters, type EthnicCluster } from '../data/ethnicClusters';
 import vietnamGeoJson from '../data/vietnam.geo.json';
+import { islandGroups, eezPolygon } from '../data/maritimeData';
 
 // Fix for default Leaflet marker icons in React
 import iconMarker2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -31,6 +32,7 @@ const createCustomIcon = (color: string) => {
 
 interface Props {
     onClusterSelect: (cluster: EthnicCluster) => void;
+    onGroupSelect: (groupId: string) => void;
 }
 
 // Map configuration
@@ -147,10 +149,7 @@ const ProvinceLabelsLayer = () => {
     );
 };
 
-import { islandGroups, eezPolygon } from '../data/maritimeData'; // Import data
-import { Polygon, Tooltip } from 'react-leaflet'; // Add Tooltip import
 
-// ... (previous imports and code)
 
 const MARITIME_ZOOM_THRESHOLD = 5;
 
@@ -211,7 +210,7 @@ const MaritimeLayers = () => {
     );
 };
 
-export const VietnamEthnicMap: React.FC<Props> = ({ onClusterSelect }) => {
+export const VietnamEthnicMap: React.FC<Props> = ({ onClusterSelect, onGroupSelect }) => {
   return (
     <div className="w-full h-full relative z-0">
       <MapContainer 
@@ -249,15 +248,19 @@ export const VietnamEthnicMap: React.FC<Props> = ({ onClusterSelect }) => {
                     click: () => onClusterSelect(cluster),
                 }}
             >
-              <Popup className="font-sans">
+              <Popup className="font-sans" minWidth={240}>
                 <div className="p-2 min-w-[200px]">
                     <h3 className="font-bold text-lg font-serif text-stone-800 mb-1">{cluster.region}</h3>
-                    <p className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">Key Groups</p>
+                    <p className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">Ethnic Groups (Click to Explore)</p>
                     <div className="flex flex-wrap gap-1 mb-3">
                         {cluster.ethnicGroups.map(g => (
-                            <span key={g} className="bg-stone-100 text-stone-700 px-2 py-0.5 rounded text-xs border border-stone-300">
+                            <button 
+                                key={g} 
+                                onClick={() => onGroupSelect(g)}
+                                className="bg-stone-50 hover:bg-stone-200 hover:text-primary transition-colors text-stone-700 px-2 py-1 rounded text-xs border border-stone-300 font-medium cursor-pointer"
+                            >
                                 {g}
-                            </span>
+                            </button>
                         ))}
                     </div>
                     <p className="text-sm text-stone-600 leading-snug">{cluster.description}</p>
