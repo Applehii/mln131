@@ -13,8 +13,8 @@ export default {
         paper: '#fdfbf7', // Warm background
       },
       fontFamily: {
-        serif: ['Merriweather', 'serif'],
-        sans: ['Inter', 'sans-serif'],
+        serif: ['Noto Sans', 'sans-serif'],
+        sans: ['Noto Sans', 'sans-serif'],
       }
     },
   },
