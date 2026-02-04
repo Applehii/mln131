@@ -14,7 +14,12 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { ethnicClusters, type EthnicCluster } from "../data/ethnicClusters";
 import vietnamGeoJson from "../data/vietnam.geo.json";
-import { islandGroups, eezPolygon } from "../data/maritimeData";
+import { 
+  islandGroups, 
+  eezPolygon, 
+  hoangSaPolygon, 
+  truongSaPolygon 
+} from "../data/maritimeData";
 
 // Fix for default Leaflet marker icons in React
 import iconMarker2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -173,25 +178,59 @@ const MaritimeLayers = () => {
 
   const isMaritimeVisible = zoom >= MARITIME_ZOOM_THRESHOLD;
 
+  // Style chung cho vùng biển - nét đứt màu xanh dương nhạt
+  const maritimeBoundaryStyle = {
+    color: "#4da6ff", // Xanh dương nhạt
+    weight: 2,
+    dashArray: "8, 6",
+    opacity: 0.7,
+    fillOpacity: 0.08,
+    fillColor: "#4da6ff",
+  };
+
+  // Style cho vùng Hoàng Sa
+  const hoangSaStyle = {
+    ...maritimeBoundaryStyle,
+    color: "#66b3ff",
+    fillColor: "#66b3ff",
+    fillOpacity: 0.12,
+  };
+
+  // Style cho vùng Trường Sa
+  const truongSaStyle = {
+    ...maritimeBoundaryStyle,
+    color: "#66b3ff",
+    fillColor: "#66b3ff",
+    fillOpacity: 0.12,
+  };
+
   return (
     <>
-      {/* EEZ Boundary - Only visible at medium zoom+ */}
+      {/* Vùng EEZ tổng thể - Visible from low zoom */}
       {isMaritimeVisible && (
         <Polygon
           positions={eezPolygon}
-          pathOptions={{
-            color: "#00bfff", // Deep Sky Blue
-            weight: 2,
-            dashArray: "10, 10",
-            opacity: 0.6,
-            fillOpacity: 0.05, // Very subtle fill
-            fillColor: "#00bfff",
-            className: "maritime-boundary", // For adding glow via CSS if needed
-          }}
+          pathOptions={maritimeBoundaryStyle}
         />
       )}
 
-      {/* Island Sovereignty Markers - Always visible or from low zoom */}
+      {/* Vùng Hoàng Sa - riêng biệt */}
+      {isMaritimeVisible && (
+        <Polygon
+          positions={hoangSaPolygon}
+          pathOptions={hoangSaStyle}
+        />
+      )}
+
+      {/* Vùng Trường Sa - riêng biệt */}
+      {isMaritimeVisible && (
+        <Polygon
+          positions={truongSaPolygon}
+          pathOptions={truongSaStyle}
+        />
+      )}
+
+      {/* Marker các đảo và quần đảo */}
       {islandGroups.map((island) => (
         <Marker
           key={island.id}
@@ -199,25 +238,26 @@ const MaritimeLayers = () => {
           icon={L.divIcon({
             className: "island-marker-container",
             html: `
-                            <div class="relative flex flex-col items-center justify-center">
-                                <div class="w-4 h-4 bg-red-600 rounded-full border-2 border-yellow-400 shadow-md z-10 hover:scale-125 transition-transform"></div>
-                                <div class="mt-1 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider text-center whitespace-nowrap drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-                                    ${island.name}
-                                </div>
-                            </div>
-                        `,
-            iconSize: [200, 40],
-            iconAnchor: [100, 8], // Anchor at the dot center roughly
+              <div class="relative flex flex-col items-center justify-center">
+                <div class="w-4 h-4 ${island.type === 'archipelago' ? 'bg-red-600 border-yellow-400' : 'bg-orange-500 border-white'} rounded-full border-2 shadow-md z-10 hover:scale-125 transition-transform"></div>
+                <div class="mt-1 text-white font-bold text-[9px] sm:text-[10px] uppercase tracking-wider text-center whitespace-nowrap drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)]" style="text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 2px 6px rgba(0,0,0,0.5);">
+                  ${island.name}
+                </div>
+              </div>
+            `,
+            iconSize: [250, 50],
+            iconAnchor: [125, 10],
           })}
         >
-          <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
-            <span className="font-serif italic">{island.description}</span>
+          <Tooltip direction="top" offset={[0, -10]} opacity={0.95}>
+            <span className="font-serif italic text-sm">{island.description}</span>
           </Tooltip>
         </Marker>
       ))}
     </>
   );
 };
+
 
 export const VietnamEthnicMap: React.FC<Props> = ({
   onClusterSelect,
